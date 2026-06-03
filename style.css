@@ -1,22 +1,23 @@
 /* ==========================================================================
-   1. CSS VARIABLES (THEME TOKENS)
-   ========================================================================== */
+    1. CSS VARIABLES (THEME TOKENS) - TEMA OREN
+    ========================================================================== */
 :root {
-    --bg-base: #0f111a;
-    --bg-gradient-start: #0f111a;
-    --bg-gradient-end: #1a1d29;
+    --bg-base: #110e0c;
+    --bg-gradient-start: #110e0c;
+    --bg-gradient-end: #291a13;
     --text-primary: #ffffff;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
     
-    --accent-color: #6366f1;
-    --accent-hover: #4f46e5;
-    --accent-glow: rgba(99, 102, 241, 0.5);
-    --accent-light: #818cf8;
+    /* Warna Aksin Oren (Dark Mode) */
+    --accent-color: #f97316;
+    --accent-hover: #ea580c;
+    --accent-glow: rgba(249, 115, 22, 0.5);
+    --accent-light: #fb923c;
     
     --grid-color: rgba(255, 255, 255, 0.05);
     
-    --glass-bg: rgba(30, 41, 59, 0.45);
+    --glass-bg: rgba(43, 26, 18, 0.45);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-highlight: rgba(255, 255, 255, 0.1);
     --glass-shadow: rgba(0, 0, 0, 0.4);
@@ -24,10 +25,10 @@
     --bg-shape-bg: rgba(255, 255, 255, 0.03);
     --bg-shape-border: rgba(255, 255, 255, 0.05);
     
-    --card-hover: rgba(99, 102, 241, 0.15);
-    --card-hover-border: rgba(99, 102, 241, 0.4);
+    --card-hover: rgba(249, 115, 22, 0.15);
+    --card-hover-border: rgba(249, 115, 22, 0.4);
     
-    --icon-bg-1: rgba(99, 102, 241, 0.15);
+    --icon-bg-1: rgba(249, 115, 22, 0.15);
     
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: all 0.2s ease-in-out;
@@ -37,37 +38,38 @@
 }
 
 [data-theme="light"] {
-    --bg-base: #f8fafc;
-    --bg-gradient-start: #f8fafc;
-    --bg-gradient-end: #e2e8f0;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #94a3b8;
+    --bg-base: #fff7ed;
+    --bg-gradient-start: #fff7ed;
+    --bg-gradient-end: #ffedd5;
+    --text-primary: #1c1917;
+    --text-secondary: #57534e;
+    --text-muted: #a8a29e;
     
-    --accent-color: #4f46e5;
-    --accent-hover: #4338ca;
-    --accent-glow: rgba(79, 70, 229, 0.3);
-    --accent-light: #6366f1;
+    /* Warna Aksin Oren (Light Mode) */
+    --accent-color: #ea580c;
+    --accent-hover: #c2410c;
+    --accent-glow: rgba(234, 88, 12, 0.3);
+    --accent-light: #f97316;
     
     --grid-color: rgba(0, 0, 0, 0.06);
     
     --glass-bg: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(255, 255, 255, 1);
     --glass-highlight: rgba(255, 255, 255, 0.8);
-    --glass-shadow: rgba(148, 163, 184, 0.2);
+    --glass-shadow: rgba(234, 88, 12, 0.15);
     
     --bg-shape-bg: rgba(0, 0, 0, 0.02);
     --bg-shape-border: rgba(0, 0, 0, 0.04);
     
     --card-hover: rgba(255, 255, 255, 0.9);
-    --card-hover-border: rgba(79, 70, 229, 0.3);
+    --card-hover-border: rgba(234, 88, 12, 0.3);
     
-    --icon-bg-1: rgba(79, 70, 229, 0.1);
+    --icon-bg-1: rgba(234, 88, 12, 0.1);
 }
 
 /* ==========================================================================
-   2. RESET & BASE
-   ========================================================================== */
+    2. RESET & BASE
+    ========================================================================== */
 * {
     margin: 0;
     padding: 0;
@@ -91,8 +93,8 @@ button { border: none; background: none; cursor: pointer; color: inherit; outlin
 ul { list-style: none; }
 
 /* ==========================================================================
-   3. SPA VIEW SYSTEM
-   ========================================================================== */
+    3. SPA VIEW SYSTEM
+    ========================================================================== */
 .view { display: none; width: 100%; }
 .view.active { display: block; animation: fadeInView 0.5s ease-out forwards; }
 
@@ -102,8 +104,8 @@ ul { list-style: none; }
 }
 
 /* ==========================================================================
-   4. ANIMATED BACKGROUND (GRID & BLOBS)
-   ========================================================================== */
+    4. ANIMATED BACKGROUND (GRID & BLOBS)
+    ========================================================================== */
 .background-container {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     z-index: -2; overflow: hidden;
@@ -120,19 +122,14 @@ ul { list-style: none; }
     animation: moveGridSideways 20s linear infinite;
 }
 
-@keyframes moveGridSideways {
-    0% { transform: translateY(0) translateX(0); }
-    100% { transform: translateY(-40px) translateX(-40px); }
-}
-
 .blob {
     position: absolute; filter: blur(80px); z-index: -1; opacity: 0.5; border-radius: 50%;
     animation: floatBlob 12s ease-in-out infinite alternate; transition: background 0.5s ease;
 }
 
 .blob-1 { top: 10%; left: 5%; width: 350px; height: 350px; background: var(--accent-color); }
-.blob-2 { bottom: -5%; right: 0%; width: 400px; height: 400px; background: #8b5cf6; animation-delay: -4s; animation-duration: 15s; }
-.blob-3 { top: 40%; left: 60%; width: 250px; height: 250px; background: #ec4899; animation-delay: -8s; opacity: 0.3; }
+.blob-2 { bottom: -5%; right: 0%; width: 400px; height: 400px; background: #eab308; animation-delay: -4s; animation-duration: 15s; }
+.blob-3 { top: 40%; left: 60%; width: 250px; height: 250px; background: #ef4444; animation-delay: -8s; opacity: 0.3; }
 
 @keyframes floatBlob {
     0% { transform: translate(0, 0) scale(1); }
@@ -142,8 +139,8 @@ ul { list-style: none; }
 }
 
 /* ==========================================================================
-   5. ANIMATED GLASS SHAPES
-   ========================================================================== */
+    5. ANIMATED GLASS SHAPES
+    ========================================================================== */
 .glass-shapes-container {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     z-index: -1; pointer-events: none;
@@ -155,7 +152,7 @@ ul { list-style: none; }
     animation: float-shapes 25s infinite ease-in-out;
 }
 
-shape-1 { top: 15%; left: 10%; width: 120px; height: 120px; border-radius: 30px; transform: rotate(15deg); }
+.shape-1 { top: 15%; left: 10%; width: 120px; height: 120px; border-radius: 30px; transform: rotate(15deg); }
 .shape-2 { top: 65%; left: 85%; width: 90px; height: 90px; border-radius: 50%; animation-delay: -3s; }
 .shape-3 { top: 75%; left: 15%; width: 70px; height: 70px; border-radius: 20px; animation-delay: -7s; transform: rotate(45deg); }
 .shape-4 { top: 25%; right: 15%; width: 50px; height: 50px; border-radius: 10px; animation-delay: -11s; }
@@ -175,8 +172,8 @@ shape-1 { top: 15%; left: 10%; width: 120px; height: 120px; border-radius: 30px;
 }
 
 /* ==========================================================================
-   6. BUTTON ENTRY ANIMATION & SCROLL ANIMATION
-   ========================================================================== */
+    6. BUTTON ENTRY ANIMATION & SCROLL ANIMATION
+    ========================================================================== */
 @keyframes btnEntryPop {
     0% { opacity: 0; transform: scale(0.6) translateY(20px); }
     60% { opacity: 1; transform: scale(1.05) translateY(-5px); }
@@ -196,8 +193,8 @@ shape-1 { top: 15%; left: 10%; width: 120px; height: 120px; border-radius: 30px;
 }
 
 /* ==========================================================================
-   7. HEADER NAV BAR & LOGO SHIMMER
-   ========================================================================== */
+    7. HEADER NAV BAR & LOGO SHIMMER
+    ========================================================================== */
 header {
     position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px;
     display: flex; justify-content: space-between; align-items: center; z-index: 100;
@@ -243,16 +240,37 @@ header {
 .icon-btn:hover { transform: scale(1.05) translateY(-2px); border-color: var(--accent-color); color: var(--accent-color); }
 
 /* ==========================================================================
-   8. MAIN CONTENT SHARED STYLES
-   ========================================================================== */
+    8. MAIN CONTENT SHARED STYLES
+    ========================================================================== */
 main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: relative; }
 
 .hero-group { text-align: center; margin-bottom: 60px; animation: scaleInFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
+
+/* Main Title dengan Shimmer & Heavy Drop Shadow + Glow */
 .main-title { 
-    font-size: 3.5rem; font-weight: 800; margin-bottom: 10px;
-    background: linear-gradient(to right, var(--text-primary), var(--accent-color));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px;
+    font-size: 3.5rem; 
+    font-weight: 800; 
+    margin-bottom: 10px;
+    
+    background: linear-gradient(90deg, var(--text-primary) 0%, var(--accent-color) 40%, var(--accent-color) 60%, var(--text-primary) 100%);
+    background-size: 200% auto; 
+    color: var(--text-primary); 
+    
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    letter-spacing: -1px;
+    animation: orangeShimmer 3s linear infinite;
+    
+    /* Bayangan dipertebal: Kombinasi bayangan hitam 3D dan pendaran (glow) oren */
+    filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0px 0px 8px var(--accent-glow));
 }
+
+@keyframes orangeShimmer {
+    to { background-position: -200% center; }
+}
+
 .sub-title { font-size: 0.85rem; letter-spacing: 4px; color: var(--text-secondary); text-transform: uppercase; margin-bottom: 20px; font-weight: 600; }
 
 .content-section { margin-bottom: 40px; animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
@@ -306,7 +324,27 @@ main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: rel
 /* Halaman Project Styles */
 .profile-card { border-radius: var(--radius-lg); padding: 40px 20px 30px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 30px; }
 .profile-avatar-icon { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--glass-border); margin-bottom: 15px; background-color: var(--icon-bg-1); display: flex; justify-content: center; align-items: center; color: var(--accent-color); box-shadow: 0 10px 25px var(--glass-shadow); }
-.profile-name { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+
+/* Profile Name dengan Shimmer & Heavy Drop Shadow + Glow */
+.profile-name { 
+    font-size: 1.8rem; 
+    font-weight: 700; 
+    margin-bottom: 8px; 
+    
+    background: linear-gradient(90deg, var(--text-primary) 0%, var(--accent-color) 40%, var(--accent-color) 60%, var(--text-primary) 100%);
+    background-size: 200% auto;
+    color: var(--text-primary);
+    
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    animation: orangeShimmer 3s linear infinite;
+    
+    /* Bayangan untuk profile name */
+    filter: drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.7)) drop-shadow(0px 0px 6px var(--accent-glow));
+}
+
 .profile-title { font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; }
 .section-label { text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin: 30px 0 15px; }
 .project-item { border-radius: var(--radius-md); padding: 20px; margin-bottom: 15px; transition: var(--transition-smooth); }
@@ -331,8 +369,8 @@ main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: rel
 .social-btn:hover { color: var(--accent-color); transform: translateY(-5px); border-color: var(--accent-color); box-shadow: 0 5px 15px var(--accent-glow); }
 
 /* ==========================================================================
-   9. SIDEBAR MENUS & NAVIGASI
-   ========================================================================== */
+    9. SIDEBAR MENUS & NAVIGASI
+    ========================================================================== */
 .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 998; opacity: 0; visibility: hidden; transition: 0.3s ease; }
 .sidebar-overlay.active { opacity: 1; visibility: visible; }
 .sidebar { position: fixed; top: 0; right: -340px; width: 340px; max-width: 85vw; height: 100vh; background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 999; padding: 30px 20px; overflow-y: auto; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid var(--glass-border); box-shadow: -10px 0 30px var(--glass-shadow); }
