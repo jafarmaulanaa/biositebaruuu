@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+            
     /* --- 1. THEME TOGGLE LOGIC (DARK/LIGHT MODE) --- */
     const themeBtn = document.getElementById('themeToggleBtn');
     const moonIcon = document.getElementById('moonIcon');
@@ -57,23 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
     /* --- 3. SCROLL ANIMATION (INTERSECTION OBSERVER) --- */
     const observerOptions = {
         root: null,
-        rootMargin: '0px 0px -50px 0px', // Animasi terjadi sesaat sebelum elemen 100% masuk layar
-        threshold: 0.15 // 15% dari elemen harus terlihat baru di-trigger
+        rootMargin: '0px 0px -50px 0px',
+        threshold: 0.15
     };
 
     const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Jika elemen terlihat di layar, tambahkan class 'show'
                 entry.target.classList.add('show');
             } else {
-                // Jika elemen keluar dari layar (di-scroll ke atas/bawah), hapus class 'show'
                 entry.target.classList.remove('show');
             }
         });
     }, observerOptions);
 
-    // Menerapkan observer pada semua elemen yang memiliki class scroll-animate
     const scrollElements = document.querySelectorAll('.scroll-animate');
     scrollElements.forEach(el => {
         scrollObserver.observe(el);
