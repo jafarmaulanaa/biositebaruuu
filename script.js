@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-            
+    
     /* --- 1. THEME TOGGLE LOGIC (DARK/LIGHT MODE) --- */
     const themeBtn = document.getElementById('themeToggleBtn');
     const moonIcon = document.getElementById('moonIcon');
@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const root = document.documentElement;
         let isLight = root.getAttribute('data-theme') === 'light';
         
-        themeBtn.style.transform = 'scale(0.85)';
-        setTimeout(() => themeBtn.style.transform = 'scale(1)', 150);
+        themeBtn.style.transform = 'scale(0.85) translateZ(0)';
+        setTimeout(() => themeBtn.style.transform = 'scale(1) translateZ(0)', 150);
 
         if (isLight) {
             root.removeAttribute('data-theme');
@@ -95,10 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if(viewId === 'view-about') activeId = 'nav-about';
         if(viewId === 'view-projects') activeId = 'nav-projects';
         
-        const activeNavBtn = document.getElementById(activeId);
-        if(activeNavBtn) activeNavBtn.classList.add('active');
+                const activeNavBtn = document.getElementById(activeId);
+                if(activeNavBtn) activeNavBtn.classList.add('active');
 
-        closeSidebar();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-});
+                closeSidebar();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
