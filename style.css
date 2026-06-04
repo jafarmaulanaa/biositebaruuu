@@ -1,6 +1,6 @@
 /* ==========================================================================
-    1. CSS VARIABLES (THEME TOKENS) - TEMA OREN
-    ========================================================================== */
+   1. CSS VARIABLES (THEME TOKENS) - TEMA OREN
+   ========================================================================== */
 :root {
     --bg-base: #110e0c;
     --bg-gradient-start: #110e0c;
@@ -9,7 +9,6 @@
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
     
-    /* Warna Aksin Oren (Dark Mode) */
     --accent-color: #f97316;
     --accent-hover: #ea580c;
     --accent-glow: rgba(249, 115, 22, 0.5);
@@ -45,7 +44,6 @@
     --text-secondary: #57534e;
     --text-muted: #a8a29e;
     
-    /* Warna Aksin Oren (Light Mode) */
     --accent-color: #ea580c;
     --accent-hover: #c2410c;
     --accent-glow: rgba(234, 88, 12, 0.3);
@@ -68,14 +66,16 @@
 }
 
 /* ==========================================================================
-    2. RESET & BASE
-    ========================================================================== */
+   2. RESET & BASE
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
 }
 
 html { scroll-behavior: smooth; }
@@ -93,24 +93,30 @@ button { border: none; background: none; cursor: pointer; color: inherit; outlin
 ul { list-style: none; }
 
 /* ==========================================================================
-    3. SPA VIEW SYSTEM
-    ========================================================================== */
+   3. SPA VIEW SYSTEM
+   ========================================================================== */
 .view { display: none; width: 100%; }
-.view.active { display: block; animation: fadeInView 0.5s ease-out forwards; }
+.view.active { 
+    display: block; 
+    animation: fadeInView 0.5s ease-out forwards;
+    will-change: opacity, transform;
+    transform: translateZ(0); 
+}
 
 @keyframes fadeInView {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translate3d(0, 15px, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
 /* ==========================================================================
-    4. ANIMATED BACKGROUND (GRID & BLOBS)
-    ========================================================================== */
+   4. ANIMATED BACKGROUND (GRID & BLOBS)
+   ========================================================================== */
 .background-container {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     z-index: -2; overflow: hidden;
     background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
     transition: background 0.5s ease;
+    transform: translateZ(0);
 }
 
 .animated-grid {
@@ -119,12 +125,16 @@ ul { list-style: none; }
     background-image: 
         linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-    animation: moveGridSideways 20s linear infinite;
+    will-change: transform;
 }
 
 .blob {
     position: absolute; filter: blur(80px); z-index: -1; opacity: 0.5; border-radius: 50%;
     animation: floatBlob 12s ease-in-out infinite alternate; transition: background 0.5s ease;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
 
 .blob-1 { top: 10%; left: 5%; width: 350px; height: 350px; background: var(--accent-color); }
@@ -132,15 +142,15 @@ ul { list-style: none; }
 .blob-3 { top: 40%; left: 60%; width: 250px; height: 250px; background: #ef4444; animation-delay: -8s; opacity: 0.3; }
 
 @keyframes floatBlob {
-    0% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -50px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
-    100% { transform: translate(40px, 60px) scale(1.05); }
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    33% { transform: translate3d(30px, -50px, 0) scale(1.1); }
+    66% { transform: translate3d(-20px, 20px, 0) scale(0.9); }
+    100% { transform: translate3d(40px, 60px, 0) scale(1.05); }
 }
 
 /* ==========================================================================
-    5. ANIMATED GLASS SHAPES
-    ========================================================================== */
+   5. ANIMATED GLASS SHAPES
+   ========================================================================== */
 .glass-shapes-container {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     z-index: -1; pointer-events: none;
@@ -150,6 +160,9 @@ ul { list-style: none; }
     position: absolute; background: var(--bg-shape-bg); border: 1px solid var(--bg-shape-border);
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     animation: float-shapes 25s infinite ease-in-out;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .shape-1 { top: 15%; left: 10%; width: 120px; height: 120px; border-radius: 30px; transform: rotate(15deg); }
@@ -158,49 +171,53 @@ ul { list-style: none; }
 .shape-4 { top: 25%; right: 15%; width: 50px; height: 50px; border-radius: 10px; animation-delay: -11s; }
 
 @keyframes float-shapes {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(20px, 30px) rotate(45deg); }
-    50% { transform: translate(-15px, 50px) rotate(90deg); }
-    75% { transform: translate(-30px, -10px) rotate(135deg); }
-    100% { transform: translate(0, 0) rotate(180deg); }
+    0% { transform: translate3d(0, 0, 0) rotateZ(0deg); }
+    25% { transform: translate3d(20px, 30px, 0) rotateZ(45deg); }
+    50% { transform: translate3d(-15px, 50px, 0) rotateZ(90deg); }
+    75% { transform: translate3d(-30px, -10px, 0) rotateZ(135deg); }
+    100% { transform: translate3d(0, 0, 0) rotateZ(180deg); }
 }
 
 .liquid-glass {
     background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border); box-shadow: 0 10px 30px var(--glass-shadow), inset 0 1px 0 var(--glass-highlight);
     transition: var(--transition-smooth);
+    transform: translateZ(0);
 }
 
 /* ==========================================================================
-    6. BUTTON ENTRY ANIMATION & SCROLL ANIMATION
-    ========================================================================== */
+   6. BUTTON ENTRY ANIMATION & SCROLL ANIMATION
+   ========================================================================== */
 @keyframes btnEntryPop {
-    0% { opacity: 0; transform: scale(0.6) translateY(20px); }
-    60% { opacity: 1; transform: scale(1.05) translateY(-5px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
+    0% { opacity: 0; transform: scale(0.6) translate3d(0, 20px, 0); }
+    60% { opacity: 1; transform: scale(1.05) translate3d(0, -5px, 0); }
+    100% { opacity: 1; transform: scale(1) translate3d(0, 0, 0); }
 }
 
 .scroll-animate {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translate3d(0, 40px, 0);
     transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: opacity, transform;
+    backface-visibility: hidden;
 }
 
 .scroll-animate.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
+    will-change: auto;
 }
 
 /* ==========================================================================
-    7. HEADER NAV BAR & LOGO SHIMMER
-    ========================================================================== */
+   7. HEADER NAV BAR & LOGO SHIMMER
+   ========================================================================== */
 header {
     position: fixed; top: 0; left: 0; width: 100%; padding: 15px 25px;
     display: flex; justify-content: space-between; align-items: center; z-index: 100;
     background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--glass-border); box-shadow: 0 10px 30px var(--glass-shadow), inset 0 -1px 0 var(--glass-highlight);
     animation: slideUpFade 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transform: translateZ(0);
 }
 
 .logo-area { display: flex; align-items: center; gap: 12px; }
@@ -221,6 +238,7 @@ header {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     animation: textShimmer 2.5s linear infinite;
+    will-change: background-position;
 }
 
 @keyframes textShimmer {
@@ -233,38 +251,35 @@ header {
     color: var(--text-primary); transition: var(--transition-fast);
     opacity: 0;
     animation: btnEntryPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    will-change: transform;
 }
 #themeToggleBtn { animation-delay: 0.3s; }
 #menuOpenBtn { animation-delay: 0.4s; }
 
-.icon-btn:hover { transform: scale(1.05) translateY(-2px); border-color: var(--accent-color); color: var(--accent-color); }
+.icon-btn:hover { transform: scale(1.05) translate3d(0, -2px, 0); border-color: var(--accent-color); color: var(--accent-color); }
 
 /* ==========================================================================
-    8. MAIN CONTENT SHARED STYLES
-    ========================================================================== */
+   8. MAIN CONTENT SHARED STYLES
+   ========================================================================== */
 main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: relative; }
 
-.hero-group { text-align: center; margin-bottom: 60px; animation: scaleInFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; }
+.hero-group { text-align: center; margin-bottom: 40px; animation: scaleInFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards; will-change: transform, opacity; }
 
-/* Main Title dengan Shimmer & Heavy Drop Shadow + Glow */
 .main-title { 
     font-size: 3.5rem; 
     font-weight: 800; 
     margin-bottom: 10px;
-    
     background: linear-gradient(90deg, var(--text-primary) 0%, var(--accent-color) 40%, var(--accent-color) 60%, var(--text-primary) 100%);
     background-size: 200% auto; 
     color: var(--text-primary); 
-    
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    
     letter-spacing: -1px;
     animation: orangeShimmer 3s linear infinite;
-    
-    /* Bayangan dipertebal: Kombinasi bayangan hitam 3D dan pendaran (glow) oren */
     filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.8)) drop-shadow(0px 0px 8px var(--accent-glow));
+    will-change: background-position;
+    transform: translateZ(0); 
 }
 
 @keyframes orangeShimmer {
@@ -278,7 +293,7 @@ main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: rel
 .section-icon { color: var(--accent-color); display: flex; }
 .section-title { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px; }
 
-@keyframes slideUpFade { 0% { opacity: 0; transform: translateY(40px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes slideUpFade { 0% { opacity: 0; transform: translate3d(0, 40px, 0); } 100% { opacity: 1; transform: translate3d(0, 0, 0); } }
 @keyframes scaleInFade { 0% { opacity: 0; transform: scale(0.85); } 100% { opacity: 1; transform: scale(1); } }
 
 /* Halaman About / Profile Styles */
@@ -297,8 +312,8 @@ main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: rel
 .info-value { font-size: 1rem; font-weight: 500; color: var(--text-primary); text-align: right; }
 
 .interests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-.interest-card { border-radius: var(--radius-md); padding: 20px; display: flex; align-items: center; gap: 15px; cursor: default; position: relative; overflow: hidden; }
-.interest-card:hover { transform: translateY(-5px) scale(1.02); background: var(--card-hover); border-color: var(--card-hover-border); }
+.interest-card { border-radius: var(--radius-md); padding: 20px; display: flex; align-items: center; gap: 15px; cursor: default; position: relative; overflow: hidden; will-change: transform; }
+.interest-card:hover { transform: translate3d(0, -5px, 0) scale(1.02); background: var(--card-hover); border-color: var(--card-hover-border); }
 .interest-icon { width: 45px; height: 45px; border-radius: var(--radius-sm); background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--accent-color); display: flex; justify-content: center; align-items: center; flex-shrink: 0; transition: var(--transition-fast); }
 .interest-card:hover .interest-icon { background: var(--accent-color); color: #ffffff; box-shadow: 0 5px 15px var(--accent-glow); }
 .interest-text { display: flex; flex-direction: column; }
@@ -311,44 +326,91 @@ main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: rel
     border-radius: var(--radius-lg); padding: 30px; text-align: center; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; border: 1px solid var(--glass-border); cursor: pointer;
     opacity: 0; 
     animation: btnEntryPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    will-change: transform;
 }
 .features-grid a:nth-child(1) { animation-delay: 0.4s; }
 .features-grid a:nth-child(2) { animation-delay: 0.55s; }
 
-.feature-card:hover { transform: translateY(-8px); background: var(--card-hover); border-color: var(--card-hover-border); box-shadow: 0 15px 35px var(--glass-shadow); }
+.feature-card:hover { transform: translate3d(0, -8px, 0); background: var(--card-hover); border-color: var(--card-hover-border); box-shadow: 0 15px 35px var(--glass-shadow); }
 .feature-icon-wrapper { width: 60px; height: 60px; border-radius: 18px; background: var(--icon-bg-1); color: var(--accent-color); display: flex; justify-content: center; align-items: center; margin: 0 auto 20px; transition: var(--transition-smooth); }
-.feature-card:hover .feature-icon-wrapper { transform: scale(1.1) rotate(5deg); background: var(--accent-color); color: #fff; }
+.feature-card:hover .feature-icon-wrapper { transform: scale(1.1) rotateZ(5deg); background: var(--accent-color); color: #fff; }
 .feature-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; text-transform: capitalize; }
 .feature-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+
+/* ==========================================================================
+   9. FLIP CARD STYLES
+   ========================================================================== */
+.flip-card-container {
+    perspective: 1000px;
+    width: 100%;
+    max-width: 650px;
+    height: 240px;
+    margin: 30px auto 40px;
+    cursor: pointer;
+    opacity: 0;
+    animation: btnEntryPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: 0.7s;
+}
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+.flip-card-container.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--glass-border);
+}
+.flip-card-front {
+    align-items: center;
+}
+.flip-card-front:hover {
+    background: var(--card-hover);
+    border-color: var(--card-hover-border);
+}
+.flip-card-back {
+    transform: rotateY(180deg);
+    padding: 25px 30px;
+    text-align: left;
+}
 
 /* Halaman Project Styles */
 .profile-card { border-radius: var(--radius-lg); padding: 40px 20px 30px; display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 30px; }
 .profile-avatar-icon { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--glass-border); margin-bottom: 15px; background-color: var(--icon-bg-1); display: flex; justify-content: center; align-items: center; color: var(--accent-color); box-shadow: 0 10px 25px var(--glass-shadow); }
 
-/* Profile Name dengan Shimmer & Heavy Drop Shadow + Glow */
 .profile-name { 
     font-size: 1.8rem; 
     font-weight: 700; 
     margin-bottom: 8px; 
-    
     background: linear-gradient(90deg, var(--text-primary) 0%, var(--accent-color) 40%, var(--accent-color) 60%, var(--text-primary) 100%);
     background-size: 200% auto;
     color: var(--text-primary);
-    
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    
     animation: orangeShimmer 3s linear infinite;
-    
-    /* Bayangan untuk profile name */
     filter: drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.7)) drop-shadow(0px 0px 6px var(--accent-glow));
+    will-change: background-position;
+    transform: translateZ(0); 
 }
 
 .profile-title { font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; }
 .section-label { text-align: center; color: var(--text-secondary); font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin: 30px 0 15px; }
-.project-item { border-radius: var(--radius-md); padding: 20px; margin-bottom: 15px; transition: var(--transition-smooth); }
-.project-item:hover { background: var(--card-hover); border-color: var(--card-hover-border); transform: translateY(-3px); }
+.project-item { border-radius: var(--radius-md); padding: 20px; margin-bottom: 15px; transition: var(--transition-smooth); will-change: transform; }
+.project-item:hover { background: var(--card-hover); border-color: var(--card-hover-border); transform: translate3d(0, -3px, 0); }
 .project-title { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; text-transform: lowercase; }
 .project-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; text-transform: lowercase; }
 .video-container { border-radius: var(--radius-lg); padding: 20px; margin-bottom: 30px; }
@@ -358,31 +420,32 @@ main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: rel
 .footer-section { margin-top: 80px; display: flex; flex-direction: column; align-items: center; gap: 20px; position: relative; padding-bottom: 30px;}
 .footer-section::before { content: ''; width: 100px; height: 1px; background: var(--glass-border); margin-bottom: 10px; }
 .made-with-love { font-size: 0.9rem; color: var(--text-secondary); letter-spacing: 0.5px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
-.heart-icon { color: #ef4444; animation: pulse 1.5s infinite; }
+.heart-icon { color: #ef4444; animation: pulse 1.5s infinite; will-change: transform; }
 @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
 .social-btn { 
     color: var(--text-secondary); transition: var(--transition-smooth); display: flex; justify-content: center; align-items: center; width: 45px; height: 45px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); 
     opacity: 0;
     animation: btnEntryPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     animation-delay: 0.8s;
+    will-change: transform;
 }
-.social-btn:hover { color: var(--accent-color); transform: translateY(-5px); border-color: var(--accent-color); box-shadow: 0 5px 15px var(--accent-glow); }
+.social-btn:hover { color: var(--accent-color); transform: translate3d(0, -5px, 0); border-color: var(--accent-color); box-shadow: 0 5px 15px var(--accent-glow); }
 
 /* ==========================================================================
-    9. SIDEBAR MENUS & NAVIGASI
-    ========================================================================== */
-.sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 998; opacity: 0; visibility: hidden; transition: 0.3s ease; }
+   10. SIDEBAR MENUS & NAVIGASI
+   ========================================================================== */
+.sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 998; opacity: 0; visibility: hidden; transition: 0.3s ease; transform: translateZ(0); }
 .sidebar-overlay.active { opacity: 1; visibility: visible; }
-.sidebar { position: fixed; top: 0; right: -340px; width: 340px; max-width: 85vw; height: 100vh; background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 999; padding: 30px 20px; overflow-y: auto; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid var(--glass-border); box-shadow: -10px 0 30px var(--glass-shadow); }
-.sidebar.active { transform: translateX(-340px); }
+.sidebar { position: fixed; top: 0; right: -340px; width: 340px; max-width: 85vw; height: 100vh; background: var(--glass-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 999; padding: 30px 20px; overflow-y: auto; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-left: 1px solid var(--glass-border); box-shadow: -10px 0 30px var(--glass-shadow); will-change: transform; }
+.sidebar.active { transform: translate3d(-340px, 0, 0); }
 .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--glass-border); }
 .sidebar-title { font-size: 1.25rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-.close-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: var(--transition-fast); }
-.close-btn:hover { background: rgba(239, 68, 68, 0.2); color: #ef4444; transform: rotate(90deg); }
+.close-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: var(--transition-fast); will-change: transform; }
+.close-btn:hover { background: rgba(239, 68, 68, 0.2); color: #ef4444; transform: rotateZ(90deg); }
 .menu-section { margin-bottom: 30px; }
 .menu-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 12px; padding-left: 10px; font-weight: 700; }
-.menu-item { display: flex; align-items: center; padding: 12px 15px; border-radius: var(--radius-md); margin-bottom: 8px; cursor: pointer; transition: var(--transition-smooth); border: 1px solid transparent; }
-.menu-item:hover, .menu-item.active { background: var(--card-hover); border-color: var(--glass-border); transform: translateX(5px); }
+.menu-item { display: flex; align-items: center; padding: 12px 15px; border-radius: var(--radius-md); margin-bottom: 8px; cursor: pointer; transition: var(--transition-smooth); border: 1px solid transparent; will-change: transform; }
+.menu-item:hover, .menu-item.active { background: var(--card-hover); border-color: var(--glass-border); transform: translate3d(5px, 0, 0); }
 .menu-icon { margin-right: 15px; color: var(--accent-color); display: flex; width: 24px; justify-content: center; }
 .menu-text-group { display: flex; flex-direction: column; flex: 1; }
 .menu-title { font-weight: 600; font-size: 0.95rem; }
@@ -392,7 +455,7 @@ main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: rel
 
 @media (max-width: 768px) {
     .main-title { font-size: 2.8rem; }
-    .hero-group { margin-bottom: 40px; }
+    .hero-group { margin-bottom: 30px; }
     .info-card { padding: 20px; }
     .feature-card { padding: 20px; }
 }
@@ -407,4 +470,5 @@ main { padding: 140px 20px 80px; max-width: 900px; margin: 0 auto; position: rel
     .sidebar { width: 300px; }
     .profile-name { font-size: 1.5rem; }
     .project-title { font-size: 1rem; }
+    .flip-card-container { height: 260px; }
 }
